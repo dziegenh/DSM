@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="dsmCellLabel" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.dsm.rowlabel.RowlabelPresenter">
+    <children>
+        <Label fx:id="nrLabel" prefWidth="22.0" text="###" textAlignment="RIGHT" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        </Label>
+        <Label fx:id="nameLabel" text="name" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="0.0">
+        </Label>
+    </children>
+</AnchorPane>

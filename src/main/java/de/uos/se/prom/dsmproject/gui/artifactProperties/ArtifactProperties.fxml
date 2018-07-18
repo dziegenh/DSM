@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.artifactProperties.ArtifactPropertiesPresenter">
+   <children>
+      <ComboBox fx:id="inputType" editable="true" layoutX="14.0" layoutY="14.0" onAction="#onSelectType" promptText="Type.." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+      <TextField fx:id="inputName" layoutX="8.0" layoutY="-12.0" promptText="Name..." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

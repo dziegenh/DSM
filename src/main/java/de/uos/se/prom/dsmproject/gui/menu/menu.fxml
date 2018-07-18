@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="menuAnchorPane" fx:id="menuAnchorPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.menu.MenuPresenter">
+    <children>
+        <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onNewProject" text="New Project" />
+                        <MenuItem mnemonicParsing="false" onAction="#onLoadProject" text="Load Project" />
+                        <MenuItem fx:id="mi_saveProject" mnemonicParsing="false" onAction="#onSaveProject" text="Save Project" />
+                        <MenuItem mnemonicParsing="false" onAction="#onSaveProjectAs" text="Save Project as" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <Menu mnemonicParsing="false" text="Export">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onExportCsv" text="CSV" />
+                    </items>
+                  </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#onExtractMeta" text="Extract meta-project" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#onExit" text="Exit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onNewArtifact" text="New Artifact" />
+                        <MenuItem fx:id="editDelete" disable="true" mnemonicParsing="false" onAction="#onEditDelete" text="Delete">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="DELETE" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                            </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#onEditSelectAll" text="Select all">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="A" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                            </accelerator>
+                        </MenuItem>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                    <items>
+                        <Menu fx:id="menuViewSort" mnemonicParsing="false" text="Sort">
+                            <items>
+                                <CheckMenuItem fx:id="mi_autoSort" mnemonicParsing="false" onAction="#onAutoSort" text="Auto-sort" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="DSM">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onAdjustViewport" text="Adjust viewport" />
+                                <CheckMenuItem fx:id="mi_autoAdjust" mnemonicParsing="false" onAction="#onAutoAdjust" text="Auto-adjust" />
+                            </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#onEditTypeVisibility" text="Edit type visibility" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem disable="true" mnemonicParsing="false" onAction="#onZoomIn" text="Zoom In">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="ADD" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                            </accelerator>
+                        </MenuItem>
+                        <MenuItem disable="true" mnemonicParsing="false" onAction="#onZoomOut" text="Zoom Out">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="SUBTRACT" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                            </accelerator>
+                        </MenuItem>
+                        <MenuItem disable="true" mnemonicParsing="false" onAction="#onResetZoom" text="Reset Zoom">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="NUMPAD0" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                            </accelerator>
+                        </MenuItem>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onCreateRandomProject" text="Create Random Project" />
+                        <MenuItem mnemonicParsing="false" onAction="#onHelpAbout" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </children>
+</AnchorPane>

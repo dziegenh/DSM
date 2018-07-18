@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="dsmCellLabel" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.dsm.collabel.CollabelPresenter">
+    <children>
+        <Label fx:id="nrLabel" text="###" textAlignment="RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <font>
+                <Font name="Courier New" size="12.0" />
+            </font>
+        </Label>
+        <Group AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" rotate="-90.0" text="name">
+                    <font>
+                        <Font name="Courier New" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </Group>
+    </children>
+</AnchorPane>

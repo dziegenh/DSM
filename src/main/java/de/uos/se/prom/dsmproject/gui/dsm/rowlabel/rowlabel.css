@@ -1,0 +1,14 @@
+
+.selected {
+    -fx-font-weight: bold;
+}
+
+.dsmCellLabel {
+    -fx-border-width: 1px;
+    -fx-border-color: transparent;
+}
+
+.highlighted {
+    -fx-border-color: #000;
+    /*-fx-font-style: italic;*/
+}

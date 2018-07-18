@@ -1,0 +1,3 @@
+.shadowed {
+    -fx-effect: dropshadow(one-pass-box , #80808080, 4.5, 0.0, 3.0, 3.0);
+}
