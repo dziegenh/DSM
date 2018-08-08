@@ -16,11 +16,7 @@
         </Label>
         <Group AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" rotate="-90.0" text="name">
-                    <font>
-                        <Font name="Courier New" size="12.0" />
-                    </font>
-                </Label>
+                <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" rotate="-90.0" text="name" />
             </children>
         </Group>
     </children>
