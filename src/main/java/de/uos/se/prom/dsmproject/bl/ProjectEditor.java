@@ -213,8 +213,8 @@ public class ProjectEditor {
         this.artifactTargetDependencies.clear();
 
         for (Artifact artifact : project.getArtifacts()) {
-            artifactSourceDependencies.put(artifact, new LinkedList<Dependency>());
-            artifactTargetDependencies.put(artifact, new LinkedList<Dependency>());
+            artifactSourceDependencies.put(artifact, new LinkedList<>());
+            artifactTargetDependencies.put(artifact, new LinkedList<>());
         }
 
         for (Dependency dependency : project.getDependencies()) {
