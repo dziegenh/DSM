@@ -32,8 +32,12 @@ public class ArtifactPropertiesPresenter extends ArtifacttypePresenter {
         }
 
         this.inputName.setText(artifact.getName());
-        this.inputType.getSelectionModel().select(artifact.getType());
-        this.selectedType = artifact.getType();
+
+        final Artifacttype type = artifact.getType();
+        if (null != type) {
+            this.inputType.getSelectionModel().select(type);
+            this.selectedType = type;
+        }
     }
 
     String getName() {

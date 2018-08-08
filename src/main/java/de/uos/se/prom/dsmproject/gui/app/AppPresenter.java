@@ -11,6 +11,7 @@ import de.uos.se.prom.dsmproject.bl.events.AutoAdjustDsmChanged;
 import de.uos.se.prom.dsmproject.bl.events.ProjectCreated;
 import de.uos.se.prom.dsmproject.bl.events.ProjectLoaded;
 import de.uos.se.prom.dsmproject.entity.Project;
+import de.uos.se.prom.dsmproject.gui.DragDropHandler;
 import de.uos.se.prom.dsmproject.gui.dg.DgView;
 import de.uos.se.prom.dsmproject.gui.dsm.DsmView;
 import de.uos.se.prom.dsmproject.gui.events.DsmSizeChanged;
@@ -132,6 +133,9 @@ public class AppPresenter implements Initializable {
             }
         });
 
+        
+        // Create handler for Drag-and-Drop-Actions
+        DragDropHandler dragDropHandler = new DragDropHandler(mainSplitPane);
     }
 
     private Window getWindow() {

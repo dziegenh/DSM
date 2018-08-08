@@ -79,7 +79,10 @@ public class ArtifactPropertiesDialog {
 
                 } else {
 
-                    if (null == artifact) {
+                    boolean newArtifact = (null == artifact) 
+                            || (null == artifact.getType()); // An Artifact is also considered to be new if it doesn't have any type
+                    
+                    if (newArtifact) {
 
                         if (artifactEditor.hasArtifact(name)) {
                             alertNameExists(name);
@@ -88,7 +91,8 @@ public class ArtifactPropertiesDialog {
                             closeDialog = true;
                         }
 
-                    } else {
+                    } // Edit artifact 
+                    else {
                         if (!artifact.getName().equals(name) && artifactEditor.hasArtifact(name)) {
                             alertNameExists(name);
                         } else {

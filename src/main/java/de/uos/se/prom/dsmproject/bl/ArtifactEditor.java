@@ -1,6 +1,8 @@
 package de.uos.se.prom.dsmproject.bl;
 
+import de.uos.se.prom.dsmproject.bl.event.Event;
 import de.uos.se.prom.dsmproject.bl.event.EventBus;
+import de.uos.se.prom.dsmproject.bl.event.EventListener;
 import de.uos.se.prom.dsmproject.bl.events.ArtifactAdded;
 import de.uos.se.prom.dsmproject.bl.events.ArtifactEdited;
 import de.uos.se.prom.dsmproject.bl.events.ProjectCreated;
@@ -34,15 +36,13 @@ public class ArtifactEditor {
 
     @PostConstruct
     public void initialize() {
-        eventBus.addListener(ProjectCreated.TOPIC, (event) -> {
+        final EventListener<Event> projectEventListener = (event) -> {
             ProjectCreated realEvent = (ProjectCreated) event;
             applyProjectData(realEvent.getProject());
 
-        });
-        eventBus.addListener(ProjectLoaded.TOPIC, (event) -> {
-            ProjectLoaded realEvent = (ProjectLoaded) event;
-            applyProjectData(realEvent.getProject());
-        });
+        };
+        eventBus.addListener(ProjectCreated.TOPIC, projectEventListener);
+        eventBus.addListener(ProjectLoaded.TOPIC, projectEventListener);
     }
 
     public boolean addArtifact(String name, Artifacttype type) {
@@ -88,6 +88,7 @@ public class ArtifactEditor {
         List<Artifact> artifacts = project.getArtifacts();
         this.nameToTypes.clear();
         this.typeToArtifacts.clear();
+        this.lastUsedType = null;
         artifacts.forEach((artifact) -> {
             handleArtifacttype(artifact);
             // TODO the next line could also be done by handleArtifacttype() !

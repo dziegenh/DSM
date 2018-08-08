@@ -98,7 +98,7 @@ public class DsmPresenter implements Initializable {
         RowConstraints labelRowConstraints = new RowConstraints();
         labelRowConstraints.setValignment(VPos.BOTTOM);
         cellGrid.getRowConstraints().add(labelRowConstraints);
-
+        
         eventBus.addListener(DependencyAdded.TOPIC, (event) -> {
             DependencyAdded realEvent = (DependencyAdded) event;
             Dependency dependency = realEvent.getDependency();
@@ -306,7 +306,7 @@ public class DsmPresenter implements Initializable {
 
         // the new row will be inserted as the last grid row. Plus 1 because of the first row containing the labels.
         int row = sortedArtifacts.size() + cellsStartRow;
-        int column = cellsStartColumn;
+        int column = cellsStartColumn + 1;
 
         sortedArtifacts.add(artifact);
 
