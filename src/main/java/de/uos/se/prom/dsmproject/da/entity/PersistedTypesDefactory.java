@@ -32,7 +32,7 @@ public class PersistedTypesDefactory {
         }
 
         Project project = new Project(decodeString(pProject.name), pProject.directed);
-        project.setActiveViewName(pProject.activeViewName);
+        project.setActiveViewName(decodeString(pProject.activeViewName));
         project.setDependenciesWeighted(pProject.dependenciesWeighted);
 
         if (null != pProject.artifacttypes) {
@@ -90,14 +90,18 @@ public class PersistedTypesDefactory {
     }
 
     private Dependency create(PersistedDependency pDependency) {
-        Artifact source = nameToArtifact.get(pDependency.sourceArtifactName);
-        Artifact target = nameToArtifact.get(pDependency.targetArtifactName);
+        final String sourceArtifactName = decodeString(pDependency.sourceArtifactName);
+        final String targetArtifactName = decodeString(pDependency.targetArtifactName);
+        Artifact source = nameToArtifact.get(sourceArtifactName);
+        Artifact target = nameToArtifact.get(targetArtifactName);
 
         if (null == source) {
             source = unkownArtifact;
+            // TODO log error?!
         }
         if (null == target) {
             target = unkownArtifact;
+            // TODO log error?!
         }
 
         return new Dependency(source, target, pDependency.weight);
