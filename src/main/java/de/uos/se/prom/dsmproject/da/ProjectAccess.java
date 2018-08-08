@@ -32,6 +32,14 @@ public class ProjectAccess {
     private static final String TAG_ROOT = "DsmProject";
     private static final String TAG_PROJECT = "persistedProject";
 
+    private static final String ATTRIBUTE_VERSION = "version";
+
+    /**
+     * TODO get value from properties!
+     */
+    private static final String ATTRIBUTE_VERSION_VALUE = "0.0";
+    static final String ATTRIBUTE_VERSION_MIN_VALUE = "0.0";
+
     @Deprecated
     private final boolean COMPRESS_IMAGES = false;
 
@@ -56,12 +64,24 @@ public class ProjectAccess {
                 PersistedView.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-        // load model data
-        NodeList projectNodes = doc.getElementsByTagName(TAG_PROJECT);
-        Element projectNode = (Element) projectNodes.item(0);
-        PersistedProject pProject = XmlUtilities.nodeToObject(projectNode, PersistedProject.class, unmarshaller);
+        // Get file version from root tag
+        Element root = (Element) doc.getElementsByTagName(TAG_ROOT).item(0);
+        String fileVersion = root.getAttribute(ATTRIBUTE_VERSION);
+        if (null == fileVersion) {
+            fileVersion = ATTRIBUTE_VERSION_MIN_VALUE;
+        }
 
-        return new PersistedTypesDefactory().create(pProject);
+        // TODO unmarshall objects depending on file version!
+        if (fileVersion.equals(ATTRIBUTE_VERSION_MIN_VALUE)) {
+            // load model data
+            NodeList projectNodes = doc.getElementsByTagName(TAG_PROJECT);
+            Element projectNode = (Element) projectNodes.item(0);
+            PersistedProject pProject = XmlUtilities.nodeToObject(projectNode, PersistedProject.class, unmarshaller);
+
+            return new PersistedTypesDefactory().create(pProject);
+        }
+
+        return null;
     }
 
     /**
@@ -74,6 +94,9 @@ public class ProjectAccess {
         Document doc = docBuilder.newDocument();
 
         Element root = doc.createElement(TAG_ROOT);
+
+        // add file version to root tag
+        root.setAttribute(ATTRIBUTE_VERSION, ATTRIBUTE_VERSION_VALUE);
         doc.appendChild(root);
 
         PersistedProject pProject = new PersistedTypesFactory().create(project);
