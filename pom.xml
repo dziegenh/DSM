@@ -14,8 +14,8 @@
         <mainClass>de.uos.se.prom.dsmproject.MainApp</mainClass>
     </properties>
 
-    <dependencies>     
-        
+    <dependencies>
+
         <dependency>
             <groupId>de.uos.se</groupId>
             <artifactId>Utilities</artifactId>
