@@ -5,6 +5,7 @@ import de.uos.se.prom.dsmproject.bl.ArtifactEditor;
 import de.uos.se.prom.dsmproject.bl.ProjectController;
 import de.uos.se.prom.dsmproject.bl.ProjectEditor;
 import de.uos.se.prom.dsmproject.bl.SelectionController;
+import de.uos.se.prom.dsmproject.bl.ServerController;
 import de.uos.se.prom.dsmproject.bl.ViewEditor;
 import de.uos.se.prom.dsmproject.bl.application.ExceptionHandler;
 import de.uos.se.prom.dsmproject.bl.event.EventBus;
@@ -16,6 +17,8 @@ import de.uos.se.prom.dsmproject.entity.DsmSorting;
 import de.uos.se.prom.dsmproject.gui.EnumTranslator;
 import de.uos.se.prom.dsmproject.gui.about.AboutView;
 import de.uos.se.prom.dsmproject.gui.artifactProperties.ArtifactPropertiesDialog;
+import de.uos.se.prom.dsmproject.gui.onlineDialog.GetProjectDialog;
+import de.uos.se.prom.dsmproject.gui.onlineDialog.SendProjectDialog;
 import de.uos.se.prom.dsmproject.gui.typeVisibility.TypeVisibilityDialog;
 import java.io.File;
 import java.net.URL;
@@ -57,6 +60,9 @@ public class MenuPresenter implements Initializable {
 
     @Inject
     ViewEditor viewController;
+    
+    @Inject
+    ServerController serverController;
 
     @FXML
     AnchorPane menuAnchorPane;
@@ -262,7 +268,43 @@ public class MenuPresenter implements Initializable {
                 new ExtensionFilter("All Files", "*.*"));
         return fileChooser;
     }
-
+    
+    /**
+     * 
+     * Markus Changes from now on
+     * 
+     */
+    
+    //create Get Project Dialog
+    @FXML
+    public void onOnlineGetProject(ActionEvent event) {
+    	serverController.clearloadedProject();
+    	GetProjectDialog dialog = new GetProjectDialog();
+        Injector.injectMembers(GetProjectDialog.class, dialog);
+        dialog.createDialog();
+    }
+    
+    //exit LiveMode
+    @FXML
+    public void onOnlineExitLiveMode(ActionEvent event) {
+    	serverController.exitLiveMode();
+    }
+    
+    //create Send Project Dialog
+    @FXML
+    public void onOnlineSendProject(ActionEvent event) {
+    	SendProjectDialog dialog = new SendProjectDialog();
+        Injector.injectMembers(SendProjectDialog.class, dialog);
+        dialog.createDialog();
+    }
+    
+    
+    /*
+     * Markus Changes end
+     * 
+     */
+    
+    
     // TODO old stuff below - check what can be used here
     @FXML
     void onEditDelete(ActionEvent event) {

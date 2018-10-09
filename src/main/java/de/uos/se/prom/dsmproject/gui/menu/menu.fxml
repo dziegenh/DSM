@@ -77,6 +77,19 @@
                         </MenuItem>
                     </items>
                 </Menu>
+                
+                
+                
+                <Menu mnemonicParsing="false" text="Online">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onOnlineGetProject" text="Get Project" />
+                        <MenuItem mnemonicParsing="false" onAction="#onOnlineExitLiveMode" text="Exit Live Mode" />
+                        <MenuItem mnemonicParsing="false" onAction="#onOnlineSendProject" text="Send Project" />
+                    </items>
+                </Menu>
+                
+                
+                
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#onCreateRandomProject" text="Create Random Project" />
