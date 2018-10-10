@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="135.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.onlineDialog.SendProjectDialogPresenter">
+   <children>
+   
+   	  <TextField fx:id="projectName" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="282.0" promptText="BeispielProject.xml..." AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="statusField" editable="false" layoutX="14.0" layoutY="68.0" prefHeight="26.0" prefWidth="173.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="208.0" AnchorPane.topAnchor="68.0" />
+      <Label layoutX="14.0" layoutY="51.0" text="Status:" />
+   		
+   </children>
+</AnchorPane>
