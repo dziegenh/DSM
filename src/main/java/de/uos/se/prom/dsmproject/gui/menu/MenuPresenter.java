@@ -12,12 +12,15 @@ import de.uos.se.prom.dsmproject.bl.event.EventBus;
 import de.uos.se.prom.dsmproject.bl.events.AdjustDsmViewport;
 import de.uos.se.prom.dsmproject.bl.events.AutoAdjustDsmChanged;
 import de.uos.se.prom.dsmproject.bl.events.AutoSortChanged;
+import de.uos.se.prom.dsmproject.bl.events.ProjectCreated;
+import de.uos.se.prom.dsmproject.bl.events.ProjectLoaded;
 import de.uos.se.prom.dsmproject.bl.export.Exporter;
 import de.uos.se.prom.dsmproject.entity.DsmSorting;
 import de.uos.se.prom.dsmproject.gui.EnumTranslator;
 import de.uos.se.prom.dsmproject.gui.about.AboutView;
 import de.uos.se.prom.dsmproject.gui.artifactProperties.ArtifactPropertiesDialog;
 import de.uos.se.prom.dsmproject.gui.onlineDialog.GetProjectDialog;
+import de.uos.se.prom.dsmproject.gui.onlineDialog.PreferencesDialog;
 import de.uos.se.prom.dsmproject.gui.onlineDialog.SendProjectDialog;
 import de.uos.se.prom.dsmproject.gui.typeVisibility.TypeVisibilityDialog;
 import java.io.File;
@@ -81,7 +84,9 @@ public class MenuPresenter implements Initializable {
 
     @Inject
     EventBus eventBus;
-
+    
+    @FXML
+    MenuItem sendProject;
     /**
      * True if the current project has unsaved changes. Used to show a confirm
      * dialog when these changes would be discarded on menu actions.
@@ -118,6 +123,8 @@ public class MenuPresenter implements Initializable {
             AutoSortChanged realEvent = (AutoSortChanged) event;
             mi_autoSort.setSelected(realEvent.isAutoSort());
         });
+        
+       
     }
 
     @FXML
@@ -278,7 +285,7 @@ public class MenuPresenter implements Initializable {
     //create Get Project Dialog
     @FXML
     public void onOnlineGetProject(ActionEvent event) {
-    	serverController.clearloadedProject();
+    	//serverController.clearloadedProject();
     	GetProjectDialog dialog = new GetProjectDialog();
         Injector.injectMembers(GetProjectDialog.class, dialog);
         dialog.createDialog();
@@ -298,8 +305,16 @@ public class MenuPresenter implements Initializable {
         dialog.createDialog();
     }
     
+    //create Preferences Dialog
+    @FXML
+    public void onOnlinePreferences(ActionEvent event) {
+    	PreferencesDialog dialog = new PreferencesDialog();
+        Injector.injectMembers(PreferencesDialog.class, dialog);
+        dialog.createDialog();
+    }
     
-    /*
+    
+    /**
      * Markus Changes end
      * 
      */

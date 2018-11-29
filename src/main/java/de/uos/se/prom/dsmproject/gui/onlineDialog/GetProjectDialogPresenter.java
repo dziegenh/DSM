@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -21,7 +21,10 @@ public class GetProjectDialogPresenter implements Initializable{
     private TextArea projectListArea;
 	
 	@FXML
-	private TextArea statusField;
+	private TextArea statusFieldOnline;
+	
+	@FXML
+	private TextArea statusFieldProject;
 	
 	@FXML
 	private CheckBox liveMode;
@@ -31,23 +34,48 @@ public class GetProjectDialogPresenter implements Initializable{
 		
 	}
 	
-	/*
-	 * Set the Status Field
+	/**
+	 * Print Online Status to Status Text Field
+	 * @param status
 	 */
-	public void set_statusField(String status) {
-		statusField.setText(status);
+	public void set_statusFieldOnline(String status) {
+		statusFieldOnline.setText(status);
 	}
 	
-	/*
-	 * Get the Name in the Project Name Field
+	/**
+	 * Print the Read/Write Status to Status Text Field
+	 * @param status
 	 */
-    String getProjectName() {
+	public void set_statusFieldProject(String status) {
+		statusFieldProject.setText(status);
+	}
+	
+	/**
+	 * Clear the Online Status Text Field
+	 */
+	public void clear_statusFieldOnline() {
+		statusFieldOnline.clear();
+	}
+	
+	/**
+	 * Clear the Project Status Text Field
+	 */
+	public void clear_statusFieldProject() {
+		statusFieldProject.clear();
+	}
+	
+	/**
+	 * Get the Project Name 
+	 * @return projectName
+	 */
+    public String getProjectName() {
         return projectName.getText().trim();
     }
     
     
-    /*
-     * Print the Projectlist in the Field
+    /**
+     * Print the Projectlist in the Projectlist Field
+     * @param projects
      */
     public void setProjectList(List<String> projects) {
     	projectListArea.clear();
@@ -57,12 +85,24 @@ public class GetProjectDialogPresenter implements Initializable{
     		
     }
     
-    /*
-     * Get Status of Live is checked or not
+    /**
+     * Clear ProjectList Field
+     */
+    public void clearProjectList() {
+    	projectListArea.clear();
+    }
+    
+    /**
+     * Get the Status of Live CheckBox
+     * @return true if CheckBox is selected
      */
     public boolean getLiveModeStatus() {
     	if(liveMode.isSelected()) return true;
     	else return false;
+    }
+    
+    public void appendProject(String project) {
+    	
     }
 
 }

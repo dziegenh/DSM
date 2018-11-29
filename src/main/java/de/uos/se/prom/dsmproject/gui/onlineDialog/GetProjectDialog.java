@@ -3,19 +3,11 @@ package de.uos.se.prom.dsmproject.gui.onlineDialog;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-
-import de.uos.se.prom.dsmproject.bl.ArtifactEditor;
 import de.uos.se.prom.dsmproject.bl.ServerController;
-import de.uos.se.prom.dsmproject.gui.artifactProperties.ArtifactPropertiesView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ButtonBar.ButtonData;
 
@@ -34,87 +26,71 @@ public class GetProjectDialog {
 	private Dialog<Boolean> createGetProjectDialog() {
 		Dialog<Boolean> dialog = new Dialog<>();
 		
-		// create panel containing attribute fields
+		// create panel
         GetProjectDialogView view = new GetProjectDialogView();
         
         dialog.setTitle("Online - Get Project");
         dialog.setResizable(false);
         
-        //view.getRealPresenter().setArtifact(artifact);
         dialog.getDialogPane().setContent(view.getView());
 		
 		// Add button to dialog
-        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+        ButtonType buttonTypeCancel = new ButtonType("Close", ButtonData.CANCEL_CLOSE);
         ButtonType buttonTypeListProjects = new ButtonType("List Projects");
-        ButtonType buttonTypeGetProject = new ButtonType("Get Project");
+        ButtonType buttonTypeStatus = new ButtonType("Status");
         ButtonType buttonTypeLoadProject = new ButtonType("Load Project");
-        
-        CheckBox live = new CheckBox("live");
-        
-     
-        dialog.getDialogPane().getButtonTypes().addAll(buttonTypeCancel, buttonTypeListProjects, buttonTypeGetProject, buttonTypeLoadProject);
+
+        dialog.getDialogPane().getButtonTypes().addAll(buttonTypeCancel, buttonTypeListProjects, buttonTypeLoadProject, buttonTypeStatus);
     
         
         //Handle Event Get Project pressed
-        final Button btGt = (Button) dialog.getDialogPane().lookupButton(buttonTypeGetProject);
-        btGt.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				
-				 String projectname = view.getRealPresenter().getProjectName();
-				 int resp_status = serverController.getProject(projectname);
-				
-				 //if anything went wrong with receiving project
-				 if(resp_status != 200) {
-					 
-					 //if 0 returned could not connect to server or projectname Field is emtpy
-					 if(resp_status == 0) {
-						 view.getRealPresenter().set_statusField("Problem occured! Could not connect to Server or Projectname Field is empty!");
-					 }
-					 
-					 //else print the HTTP Code
-					 else {
-						 view.getRealPresenter().set_statusField("Could not get Project! HTTP Code: " + resp_status );
-					 }
-					 
-				 }
-				 //everything was successful
-				 else {
-					 view.getRealPresenter().set_statusField("Receiving Project was successful! HTTP Code: " + resp_status);
-				 }
-
-				 //prevent the dialog to close
-				 event.consume();
-			}
-        	
-        });
-        
-        //Handle Event Load Project pressed
         final Button btLd = (Button) dialog.getDialogPane().lookupButton(buttonTypeLoadProject);
         btLd.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				
+				//Clear the Status Field
+				view.getRealPresenter().clear_statusFieldOnline();
+				view.getRealPresenter().clear_statusFieldProject();
+				
+				String projectname = view.getRealPresenter().getProjectName();
+				 
+				int resp_status;
+				 
+				 //call get Project with LiveMode or without LiveMode
 				if(view.getRealPresenter().getLiveModeStatus()) {
-					
-					//Live Mode
-					
-					serverController.loadProjectLive();
+					resp_status = serverController.getProject(projectname,true);
 				}
-				else {
-					
-					//Normal Mode
-					
-					if(!serverController.loadProject()) {
-						view.getRealPresenter().set_statusField("Project could not be loaded! You have to Get a Project first!");
-						//prevent the dialog to close
-						 event.consume();
+				 
+				else resp_status = serverController.getProject(projectname,false);
+				
+				//if anything went wrong with receiving project
+				if(resp_status != 200) {
+					 
+					//if 0 returned could not connect to server or projectname Field is emtpy
+					if(resp_status == 0) {
+						view.getRealPresenter().set_statusFieldOnline("Problem occured! Could not connect to Server or Projectname Field is empty!");
 					}
+					 
+					//else print the HTTP Code
+					else {
+						view.getRealPresenter().set_statusFieldOnline("Could not get Project! HTTP Code: " + resp_status );
+					}
+					 
 				}
-			}	
+				//everything was successful
+				else {
+					view.getRealPresenter().set_statusFieldOnline("Receiving Project was successful! HTTP Code: " + resp_status);
+				}
+
+				//prevent the dialog to close
+				event.consume();
+			}
+        	
         });
+        
+
         
         
         //Handle Event List Projects is pressed
@@ -123,10 +99,15 @@ public class GetProjectDialog {
 			@Override
 			public void handle(ActionEvent event) {
 				
+				//Clear the Status Fields
+				view.getRealPresenter().clear_statusFieldOnline();
+				view.getRealPresenter().clear_statusFieldProject();
+				
 				List<String> projects = serverController.getProjectList();
 				
 				if(projects == null) {
-					view.getRealPresenter().set_statusField("Project List could not be loaded!");
+					view.getRealPresenter().clearProjectList();
+					view.getRealPresenter().set_statusFieldOnline("Project List could not be loaded or no Projects exists!");
 				}
 				else {
 					view.getRealPresenter().setProjectList(projects);
@@ -138,9 +119,34 @@ public class GetProjectDialog {
 			}	
         });
         
+        
+        //Handle Status pressed
+        final Button btSt = (Button) dialog.getDialogPane().lookupButton(buttonTypeStatus);
+        btSt.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
-        
-        
+			@Override
+			public void handle(ActionEvent event) {
+				
+				//Clear the Status Fields
+				view.getRealPresenter().clear_statusFieldOnline();
+				view.getRealPresenter().clear_statusFieldProject();
+				
+				//Get the Projectname and Access Status
+				String projectname = view.getRealPresenter().getProjectName();
+				String accStatus = serverController.getProjectStatus(projectname);
+				 
+				//Check Status and print result in Status Field
+				if(accStatus.equals("Write")) view.getRealPresenter().set_statusFieldProject("You have full Access (Write/Read) to this Project!");
+				else if (accStatus.equals("Read")) view.getRealPresenter().set_statusFieldProject("You can only Read the Project without Write Access Right!");
+				else view.getRealPresenter().set_statusFieldOnline("There was a Problem with Connection to Server!");
+				 
+				 //prevent the dialog to close
+				 event.consume();
+				
+			}
+        	
+        });
+
         return dialog;
 	}
 }

@@ -6,13 +6,15 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.onlineDialog.GetProjectDialogPresenter">
+<AnchorPane id="AnchorPane" prefHeight="211.0" prefWidth="468.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uos.se.prom.dsmproject.gui.onlineDialog.GetProjectDialogPresenter">
    <children>
    	  <TextField fx:id="projectName" layoutX="8.0" layoutY="-12.0" prefHeight="25.0" prefWidth="239.0" promptText="BeispielProject.xml..." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="0.0" />
-      <TextArea fx:id="projectListArea" editable="false" prefHeight="168.0" prefWidth="239.0" promptText="Projectlist" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="30.0" />
-   	  <TextArea fx:id="statusField" editable="false" layoutX="253.0" layoutY="30.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="253.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="30.0" />
-      <Label layoutX="253.0" layoutY="6.0" text="Status:" />
+      <TextArea fx:id="projectListArea" editable="false" prefHeight="186.0" prefWidth="243.0" promptText="Projectlist" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="30.0" />
+   	  <TextArea fx:id="statusFieldOnline" editable="false" layoutX="243.0" layoutY="34.0" prefHeight="38.0" prefWidth="200.0" AnchorPane.bottomAnchor="139.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="34.0" />
+      <Label layoutX="253.0" layoutY="17.0" text="Online Status:" />
       <CheckBox fx:id="liveMode" layoutX="253.0" layoutY="167.0" mnemonicParsing="false" text="LiveMode" />
+      <TextArea fx:id="statusFieldProject" editable="false" layoutX="252.0" layoutY="114.0" prefHeight="31.0" prefWidth="192.0" />
+      <Label layoutX="252.0" layoutY="91.0" text="Projekt Status:" />
    		
    </children>
 </AnchorPane>
