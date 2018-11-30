@@ -32,6 +32,11 @@ import de.uos.se.prom.dsmproject.entity.Dependency;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Logic for Live Mode. Listener is for handling Events and send them to Webserver
+ * @author Markus Mohr
+ *
+ */
 public class OnlineEventListener implements EventListener<Event>{
 	
 	@Inject
@@ -84,27 +89,22 @@ public class OnlineEventListener implements EventListener<Event>{
 	public void eventOccured(Event event) {
 		if(event.getClass() == ArtifactAdded.class) {
 			onArtifactAdded((ArtifactAdded) event);	
-			System.out.println("Art added");	
 		}
 		
 		if(event.getClass() == ArtifactEdited.class) {
 			onArtifactEdited((ArtifactEdited) event);	
-			System.out.println("Art edited");	
 		}
 		
 		if(event.getClass() == ArtifactDeleted.class) {
 			onArtifactDeleted((ArtifactDeleted) event);	
-			System.out.println("Art deleted");	
 		}
 		
 		if(event.getClass() == DependencyAdded.class) {
 			onDependencyAdded((DependencyAdded) event);	
-			System.out.println("Dep added");	
 		}
 		
 		if(event.getClass() == DependencyDeleted.class) {
 			onDependencyDeleted((DependencyDeleted) event);	
-			System.out.println("Dep deleted");	
 		}
 	}
 	
@@ -115,14 +115,12 @@ public class OnlineEventListener implements EventListener<Event>{
 	 */
 	private void onArtifactAdded(ArtifactAdded event){
 		Artifact newArtifact = event.getArtifact();
-		System.out.println("Artifact: " + newArtifact.getName());
 		
 		//Create Persisted Artifact 
 		PersistedArtifact pArtifact = new PersistedTypesFactory().create(newArtifact);
     	
 		//Create WebTarget
     	WebTarget target = client.target(ServerController.buildServerString()).path(http_xml + "/" + projectname + http_artifact + http_add);
-    	//WebTarget target = client.target(ServerController.buildServerString()).path(http_xml + "/" + projectname);
 
     	//Make Request
     	Response response = target.request(MediaType.APPLICATION_XML).cookie(ServerController.COOKIE).post(Entity.entity(pArtifact, MediaType.APPLICATION_XML));
@@ -156,10 +154,6 @@ public class OnlineEventListener implements EventListener<Event>{
 		//Create Persisted Artifacts
 		PersistedArtifact pArtifactBefore = new PersistedTypesFactory().create(artifactBefore);
 		PersistedArtifact pArtifactAfter = new PersistedTypesFactory().create(artifactAfter);
-		
-		System.out.println(pArtifactBefore.name);
-		System.out.println(pArtifactAfter.name);
-		
 		
 		//Create PersistedArtifactEdited
 		PersistedArtifactEdited pArtifactEdited = new PersistedArtifactEdited(pArtifactBefore, pArtifactAfter);

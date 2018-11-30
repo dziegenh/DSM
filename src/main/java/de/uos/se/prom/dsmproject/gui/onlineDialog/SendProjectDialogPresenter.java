@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import javax.inject.Inject;
 
 import de.uos.se.prom.dsmproject.bl.ServerController;
-import de.uos.se.prom.dsmproject.bl.event.EventBus;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;

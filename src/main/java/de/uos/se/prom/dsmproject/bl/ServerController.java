@@ -1,14 +1,7 @@
 package de.uos.se.prom.dsmproject.bl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.*;
-
-
 import java.util.List;
-import java.util.logging.Level;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
@@ -17,30 +10,19 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import com.airhacks.afterburner.injection.Injector;
-import com.sun.istack.internal.logging.Logger;
-
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.GenericType;
-
 import de.uos.se.prom.dsmproject.bl.event.EventBus;
-import de.uos.se.prom.dsmproject.bl.events.ArtifactAdded;
 import de.uos.se.prom.dsmproject.bl.events.LiveModeExited;
 import de.uos.se.prom.dsmproject.bl.events.LiveModeStarted;
 import de.uos.se.prom.dsmproject.bl.events.ProjectCreated;
 import de.uos.se.prom.dsmproject.bl.events.ProjectLoaded;
 import de.uos.se.prom.dsmproject.bl.events.TimestampChanged;
 import de.uos.se.prom.dsmproject.da.ProjectAccess;
-import de.uos.se.prom.dsmproject.da.entity.PersistedProject;
-import de.uos.se.prom.dsmproject.da.entity.PersistedTypesFactory;
 import de.uos.se.prom.dsmproject.da.onlineEntity.ProjectList;
 import de.uos.se.prom.dsmproject.entity.Project;
 
 /**
- * 
+ * Logic for Normal Mode
  * @author Markus Mohr
  *
  */
@@ -63,7 +45,6 @@ public class ServerController {
 	public static String HTTP_HOST = "localhost";
 	public static String HTTP_PORT = "8080";
 	public static String HTTP_SERVLET_CONTEXT = "/dsm_webserver";
-	//public static String HTTP_SERVER = "http://" + HTTP_HOST + ":8080/dsm_webserver";
 	public static String HTTP_XML = "/xml";
 	public static String HTTP_ARTIFACT = "/artifact";
 	public static String HTTP_DEPENDENCY = "/dependency";
@@ -97,13 +78,12 @@ public class ServerController {
 		//Listener because when New Project Created loadedProject etc must be reseted
 		eventBus.addListener(ProjectCreated.TOPIC, (event) ->{
         	resetServerController();
-        	//System.out.println("serverController reseted");
         });
 		
 		//Add Listener for changed Timestamps in Live Mode
 		eventBus.addListener(TimestampChanged.TOPIC, (event) -> {
 			this.serverTimestamp = ((TimestampChanged) event).getTimestamp();
-			System.out.println("New TS: " + this.serverTimestamp);
+			System.out.println("Received Timestamp: " + this.serverTimestamp);
 		});
 		
 	}
@@ -169,18 +149,18 @@ public class ServerController {
 				COOKIE = response.getCookies().get("JSESSIONID");
 			}
 			
-			//read ProjectList to get ProjectList Object
+			//Read ProjectList to get ProjectList Object
 			//ProjectList projectlist = response.readEntity(new GenericType<ProjectList>() {});
 			ProjectList projectlist = response.readEntity(ProjectList.class);
 
 			
-			//get Projects as String List
+			//Get Projects as String List
 			List<String> projects = projectlist.getProjects();
 			
 			return projects;
 		}
 		catch(Exception e) {
-			//no connection to server or any other Exception return null
+			//No connection to server or any other Exception return null
 			return null;
 		}
 		
@@ -197,7 +177,7 @@ public class ServerController {
 			return 0;
 		}
 		
-		//create WebTarget
+		//Create WebTarget
 		WebTarget target = client.target(buildServerString()).path(HTTP_XML + "/" + projectname);
 		
 		try {
@@ -208,11 +188,10 @@ public class ServerController {
 				COOKIE = response.getCookies().get("JSESSIONID");
 			}
 			
-			//System.out.println(response.getStringHeaders());
 			//HTTP Status of Response
 			int resp_status = response.getStatus();
 			
-			//if succesfully received
+			//If succesfully received
 			if(resp_status == 200) {
 				
 				//Set Filename of Project
@@ -226,8 +205,7 @@ public class ServerController {
 				
 				//Get serverTimestamp
 				this.serverTimestamp = projectAccess.getProjectTimestamp(loadedProjectFile);
-				System.out.println("Timestamp: " + this.serverTimestamp);
-				
+				System.out.println("Received Timestamp: " + this.serverTimestamp);
 				//Load Project in NormalMode or LiveMode
 				if(live) loadProjectLive();
 				
@@ -238,8 +216,8 @@ public class ServerController {
 			return resp_status;
 			
 		}catch(Exception e) {		
-			//if no connection to server or any other Exception return 0
-			e.printStackTrace();
+			//If no connection to server or any other Exception return 0
+			//e.printStackTrace();
 			return 0;
 		}
 	
@@ -251,7 +229,7 @@ public class ServerController {
 	 * @return Read/Write Status of Project. If there was a failure return empty String
 	 */
 	public String getProjectStatus(String projectname) {
-		//create WebTarget
+		//Create WebTarget
 		WebTarget target = client.target(buildServerString()).path(HTTP_XML + "/" + projectname + "/status");
 		
 		try {
@@ -265,7 +243,7 @@ public class ServerController {
 			return response.readEntity(String.class);
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return "";
 		}
 		
@@ -278,42 +256,15 @@ public class ServerController {
 	 * @return
 	 */
 	public int sendProject(String projectname) {
-	
+		//Create WebTarget
 		WebTarget target = client.target(buildServerString()).path(HTTP_XML + "/" + projectname);
 		
-		/** Send as PersistedProject
 		try {
-			
-			//get current Project
-			Project project = projectEditor.getCurrentProject();
-			
-			//create PersistedProject
-			PersistedProject pProject = new PersistedTypesFactory().create(project);
-			
-			//make request
-			Response response = target.request(MediaType.APPLICATION_XML).cookie(cookie).header("user-agent", user_agent).put(Entity.entity(pProject, MediaType.APPLICATION_XML));
-			if(response.getCookies().get("JSESSIONID") != null){
-				cookie = response.getCookies().get("JSESSIONID");
-			}
-			
-			//HTTP Status of Response
-			int resp_status = response.getStatus();
-			
-			return resp_status;
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
-		
-		*/
-		
-		try {
-			//create temporary File
+			//Create temporary File
 			File tmp = File.createTempFile("DSMProject", "tmp");
 			tmp.deleteOnExit();
 			
-			//get current Project from Project Editor
+			//Get current Project from Project Editor
 			Project project = projectEditor.currentProject;
 			
 			//Save Project with Timestamp in temporary File
@@ -324,7 +275,7 @@ public class ServerController {
 			if(response.getStatus() != 200) {
 				return response.getStatus();
 			}
-			
+			//Set Cookie
 			if(response.getCookies().get("JSESSIONID") != null){
 				COOKIE = response.getCookies().get("JSESSIONID");
 			}
@@ -333,7 +284,7 @@ public class ServerController {
 			String newTimestamp = response.readEntity(String.class);
 			if(!newTimestamp.isEmpty()) {
 				this.serverTimestamp = newTimestamp;
-				System.out.println("serverTimestamp new: " + serverTimestamp);
+				System.out.println("Received Timestamp: " + this.serverTimestamp);
 			}
 			
 			//HTTP Status of Response
@@ -341,8 +292,8 @@ public class ServerController {
 			return resp_status;
 			
 		} catch (Exception e) {
-			// something wrong with file access
-			e.printStackTrace();
+			//Something wrong with file access
+			//e.printStackTrace();
 			return 0;
 		} 
 		
@@ -372,15 +323,11 @@ public class ServerController {
 			return false;
 		}
 		else {
-			
-			//projectController.loadProject(loadedProject);
-			
 			/*
 			 * Fire own Event because with ProjectController the Option hasProjectFileProperty is set 
-			 * and this is not true when receiving Project from Server. The given File is only a temporarily File.
-			 * Other Option could be to receive only the <PersistedProject>...</PersistedProject> but this tool is designed only for 
-			 * load complete serialized Projects with <DsmProject>...</DsmProject>
+			 * and this is not true when receiving Project from Server.
 			 */
+			//projectController.loadProject(loadedProject);
 			 eventBus.fireEvent(new ProjectLoaded(loadedProject, loadedProjectFile));
 			return true;
 		}	
@@ -392,15 +339,6 @@ public class ServerController {
 	 * @return
 	 */
 	public boolean loadProjectLive() {
-		
-		System.out.println("Project loaded in Live Mode");
-		
-		/*
-		//Add Listener for changed Timestamps in Live Mode
-		eventBus.addListener(TimestampChanged.TOPIC, (event) -> {
-            this.serverTimestamp = ((TimestampChanged) event).getTimestamp();
-        });
-		*/
 		
 		//Fire Event Live Mode Started and load Project
 		eventBus.fireEvent(new LiveModeStarted(this.loadedProjectFilename));

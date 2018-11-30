@@ -2,6 +2,11 @@ package de.uos.se.prom.dsmproject.bl.events;
 
 import de.uos.se.prom.dsmproject.bl.event.Event;
 
+/**
+ * This Event is executed when Live Mode is started
+ * @author Markus Mohr
+ *
+ */
 public class LiveModeStarted extends Event {
 	
 	public final static String TOPIC = "LiveModeStarted";

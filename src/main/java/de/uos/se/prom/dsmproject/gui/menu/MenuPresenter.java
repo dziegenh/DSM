@@ -12,8 +12,6 @@ import de.uos.se.prom.dsmproject.bl.event.EventBus;
 import de.uos.se.prom.dsmproject.bl.events.AdjustDsmViewport;
 import de.uos.se.prom.dsmproject.bl.events.AutoAdjustDsmChanged;
 import de.uos.se.prom.dsmproject.bl.events.AutoSortChanged;
-import de.uos.se.prom.dsmproject.bl.events.ProjectCreated;
-import de.uos.se.prom.dsmproject.bl.events.ProjectLoaded;
 import de.uos.se.prom.dsmproject.bl.export.Exporter;
 import de.uos.se.prom.dsmproject.entity.DsmSorting;
 import de.uos.se.prom.dsmproject.gui.EnumTranslator;
@@ -285,7 +283,6 @@ public class MenuPresenter implements Initializable {
     //create Get Project Dialog
     @FXML
     public void onOnlineGetProject(ActionEvent event) {
-    	//serverController.clearloadedProject();
     	GetProjectDialog dialog = new GetProjectDialog();
         Injector.injectMembers(GetProjectDialog.class, dialog);
         dialog.createDialog();
