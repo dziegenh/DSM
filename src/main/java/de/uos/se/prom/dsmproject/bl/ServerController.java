@@ -37,9 +37,11 @@ public class ServerController {
 	@Inject
 	private ProjectAccess projectAccess;
 	
+	
 	//Injection is needed because here the OnlineEventListener is instantiated
 	@Inject
 	private OnlineEventListener onlineEventListener;
+	
 	
 	//URLs from Webserver
 	public static String HTTP_HOST = "localhost";
@@ -150,7 +152,6 @@ public class ServerController {
 			}
 			
 			//Read ProjectList to get ProjectList Object
-			//ProjectList projectlist = response.readEntity(new GenericType<ProjectList>() {});
 			ProjectList projectlist = response.readEntity(ProjectList.class);
 
 			
@@ -267,7 +268,7 @@ public class ServerController {
 			//Get current Project from Project Editor
 			Project project = projectEditor.currentProject;
 			
-			//Save Project with Timestamp in temporary File
+			//Save Project with timestamp in temporary File
 			projectAccess.saveProject(project, tmp, serverTimestamp);
 			
 			//Make Request
